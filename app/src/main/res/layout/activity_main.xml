@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        android:orientation="vertical">
+
+        <!-- 상단 서버 정보 바 -->
+        <LinearLayout
+            android:id="@+id/serverBar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#F5F5F5"
+            android:elevation="4dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvServerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TEST-SERVER-01"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvServerUrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="https://192.168.0.10/sms/upload"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/swServerOnOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:checked="true"
+                android:text="" />
+
+            <ImageButton
+                android:id="@+id/btnServerSettings"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@drawable/setting"
+
+                android:contentDescription="서버 설정" />
+        </LinearLayout>
+
+        <!-- 문자 리스트 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSms"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent" android:gravity="center"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+     android:gravity="right|bottom"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/btnNewMessage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/plus"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SMSManager</string>
+    <string name="toast_network_error">인터넷에 연결되어 있지 않습니다. Wi-Fi 또는 모바일 데이터가 켜져 있는지 확인한 후 다시 시도하세요.</string>
+</resources>

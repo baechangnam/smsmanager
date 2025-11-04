@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- 전체 기본 설정을 평문 허용 -->
+    <base-config cleartextTrafficPermitted="true">
+        <!-- (옵션) 신뢰 루트 지정: 기본 시스템 인증서 -->
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

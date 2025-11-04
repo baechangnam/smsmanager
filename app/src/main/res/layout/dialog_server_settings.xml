@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="서버 이름"/>
+
+    <EditText
+        android:id="@+id/etServerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="예: TEST-SERVER-01"
+        android:inputType="textPersonName"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="서버 주소"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etServerUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="예: https://192.168.0.10/sms/upload"
+        android:inputType="textUri"/>
+</LinearLayout>

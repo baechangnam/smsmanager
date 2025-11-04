@@ -1,0 +1,5 @@
+<!-- res/drawable/bg_sms_badge_sent.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FF9800"/>
+    <corners android:radius="999dp"/>
+</shape>

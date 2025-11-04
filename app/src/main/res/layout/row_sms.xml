@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootSwipe"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="0dp"
+    android:background="#F6F7FB">   <!-- 리스트 배경색 정도로 깔기 -->
+
+    <!-- 뒤에 깔릴 삭제 영역 -->
+    <LinearLayout
+        android:id="@+id/bgDelete"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|end"
+        android:paddingRight="16dp"
+        android:background="@drawable/bg_sms_item1">
+
+        <TextView
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <!-- 앞에 보이는 실제 아이템 내용 -->
+    <LinearLayout
+        android:id="@+id/fgContent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="@drawable/bg_sms_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- 상단: 번호 + 타입 배지 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvAddr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="010-0000-0000"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:text="받은"
+                android:textSize="10sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/bg_sms_badge_inbox" />
+        </LinearLayout>
+
+        <!-- 본문 -->
+        <TextView
+            android:id="@+id/tvBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="내용"
+            android:textSize="13sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:layout_marginTop="6dp"
+            android:textColor="#222" />
+
+        <!-- 날짜 -->
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025-10-30 15:15"
+            android:textSize="11sp"
+            android:textColor="#888"
+            android:layout_marginTop="6dp" />
+    </LinearLayout>
+
+</FrameLayout>
