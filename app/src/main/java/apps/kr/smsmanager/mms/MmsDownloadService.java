@@ -81,23 +81,26 @@ public class MmsDownloadService extends IntentService {
             // 6) ✅ thread_id 재조회
             long threadId = queryLong(newUri, "thread_id", 0L);
 
-            // 7) 텍스트/주소 추출
+// 6-1) ✅ date 재조회 (Telephony.Mms.date는 "초" 단위라서 *1000 필요)
+            long mmsSec = queryLong(newUri, "date", System.currentTimeMillis() / 1000L);
+            long mmsDate = mmsSec * 1000L;
+
+// 7) 텍스트/주소 추출
             String text = MmsUtils.readMmsText(this, newId);
             String from = MmsUtils.readMmsAddress(this, newId);
             if (text == null || text.isEmpty()) text = "[MMS]";
 
-            // 8) ✅ 우리 로컬 DB 저장
+// 8) ✅ 우리 로컬 DB 저장
             LocalMessage lm = new LocalMessage();
-            lm.sysId   = newId;
-            lm.isMms   = true;
-            lm.threadId= threadId;
-            lm.address = from;
-            lm.body    = text;
-            lm.date    = System.currentTimeMillis();
-            lm.box     = 1;      // inbox
-            lm.uploaded= false;
+            lm.sysId    = newId;
+            lm.isMms    = true;
+            lm.threadId = threadId;
+            lm.address  = from;
+            lm.body     = text;
+            lm.date     = mmsDate;     // ✅ 시스템 date 기준으로 통일
+            lm.box      = 1;
+            lm.uploaded = false;
             AppDatabase.get(getApplicationContext()).messageDao().upsert(lm);
-
             NotificationHelper.showIncomingMms(
                     getApplicationContext(),
                     from,

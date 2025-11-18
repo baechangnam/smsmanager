@@ -1,5 +1,7 @@
 package apps.kr.smsmanager.ui;
 
+import static apps.kr.smsmanager.common.MmsUtils.isBackgroundDataRestricted;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +9,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.provider.Telephony;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,8 +67,52 @@ public class MainActivity extends BaseActivity {
     private final android.os.Handler mainHandler =
             new android.os.Handler(android.os.Looper.getMainLooper());
     RecyclerView rv;
+    private boolean backgroundDialogShown = false;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkBackgroundRestrictions();
+    }
 
+    private void checkBackgroundRestrictions() {
+        if (backgroundDialogShown) return;
+
+        if (isBackgroundDataRestricted(this)) {
+            backgroundDialogShown = true;
+
+            new AlertDialog.Builder(this)
+                    .setTitle("백그라운드 데이터 제한")
+                    .setMessage(
+                            "데이터 절약 모드 또는 백그라운드 데이터 제한으로 인해\n" +
+                                    "앱이 백그라운드에서 서버로 문자를 전송하지 못할 수 있습니다.\n\n" +
+                                    "설정 화면으로 이동해서 이 앱의 백그라운드 데이터 사용을 허용해 주세요."
+                    )
+                    .setPositiveButton("설정 열기", (d, w) -> {
+                        openBackgroundDataSettings();
+                    })
+                    .setNegativeButton("나중에", null)
+                    .show();
+        }
+    }
+
+    private void openBackgroundDataSettings() {
+        Intent intent = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // Data Saver에서 이 앱 예외로 추가하는 화면
+            intent = new Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+        }
+
+        if (intent == null || intent.resolveActivity(getPackageManager()) == null) {
+            // 폴백: 앱 상세 설정 화면 (여기서 데이터/배터리 설정 들어갈 수 있음)
+            intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.setData(Uri.fromParts("package", getPackageName(), null));
+        }
+
+        startActivity(intent);
+    }
 
     private final Runnable pollRunnable = new Runnable() {
         @Override

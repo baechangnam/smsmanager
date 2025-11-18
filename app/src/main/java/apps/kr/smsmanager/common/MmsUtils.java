@@ -7,6 +7,8 @@ import static androidx.core.content.ContextCompat.getSystemService;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.Build;
 import android.telephony.TelephonyManager;
@@ -34,6 +36,41 @@ public class MmsUtils {
         return sb.toString();
     }
 
+    public static boolean isBackgroundDataRestricted(Context ctx) {
+        ConnectivityManager cm =
+                (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            int status = cm.getRestrictBackgroundStatus();
+            // ENABLED  : Data Saver 켜져 있고 이 앱은 예외 아님 → 백그 제한
+            // WHITELISTED: Data Saver 켰지만 이 앱은 예외 → OK
+            // DISABLED : Data Saver 안 켜짐 → OK
+            return status == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED;
+        }
+
+        // N 미만은 Data Saver 없으니 여기선 특별히 막히는 거 없음
+        return false;
+    }
+
+    // (옵션) 현재 네트워크 연결 유무도 같이 쓰고 싶으면
+    public static boolean isNetworkAvailable(Context ctx) {
+        ConnectivityManager cm =
+                (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            android.net.Network nw = cm.getActiveNetwork();
+            if (nw == null) return false;
+            NetworkCapabilities caps = cm.getNetworkCapabilities(nw);
+            return caps != null && (caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                    || caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    || caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+        } else {
+            android.net.NetworkInfo info = cm.getActiveNetworkInfo();
+            return info != null && info.isConnected();
+        }
+    }
     public static String getDevicePhoneNumber(Context ctx) {
         try {
             String perm;
